@@ -1,0 +1,128 @@
+For State dimension:
+
+SELECT DISTINCT State
+FROM            Staging
+ORDER BY State ASC
+
+UPDATE Staging
+SET    StateID = DimState.StateID
+FROM   Staging INNER JOIN
+DimState ON Staging.State = DimState.State
+
+__________________________________
+
+For Roadway Dimension:
+
+SELECT DISTINCT Roadway
+FROM            Staging
+
+UPDATE [Crash].dbo.Staging 
+SET [Crash].dbo.Staging.RoadwayID = [Crash].[dbo].DimRoadway.RoadwayID
+FROM [Crash].dbo.Staging
+INNER JOIN [Crash].[dbo].DimRoadway ON [Crash].dbo.Staging.[Roadway] = [Crash].[dbo].DimRoadway.[Roadway] 
+____________________________________
+
+For Race Dimension:
+
+SELECT DISTINCT Race
+FROM            Staging
+
+UPDATE [Crash].dbo.Staging 
+SET [Crash].dbo.Staging.RaceID = [Crash].[dbo].DimRace.RaceID
+FROM [Crash].dbo.Staging
+INNER JOIN [Crash].[dbo].DimRace ON [Crash].dbo.Staging.[Race] = [Crash].[dbo].DimRace.[Race]
+
+_____________________________________
+
+For Person type Dimension:
+
+SELECT DISTINCT PersonType
+FROM            Staging
+
+UPDATE [Crash].dbo.Staging 
+SET [Crash].dbo.Staging.PersonTypeID = [Crash].[dbo].DimPerson.PersonTypeID
+FROM [Crash].dbo.Staging
+INNER JOIN [Crash].[dbo].DimPerson ON [Crash].dbo.Staging.[PersonType] = [Crash].[dbo].DimPerson.[PersonType] 
+
+______________________________________
+
+For Injury Severity Dimension:
+
+SELECT DISTINCT InjurySeverity
+FROM            Staging
+
+UPDATE [Crash].dbo.Staging 
+SET [Crash].dbo.Staging.InjurySeverityID = [Crash].[dbo].DimInjurySeverity.InjurySeverityID
+FROM [Crash].dbo.Staging
+INNER JOIN [Crash].[dbo].DimInjurySeverity ON [Crash].dbo.Staging.[InjurySeverity] = [Crash].[dbo].DimInjurySeverity.[InjurySeverity] 
+
+______________________________________
+
+For Gender Dimension:
+
+SELECT DISTINCT Gender
+FROM            Staging
+
+UPDATE [Crash].dbo.Staging 
+SET [Crash].dbo.Staging.GenderID = [Crash].[dbo].DimGender.GenderID
+FROM [Crash].dbo.Staging
+INNER JOIN [Crash].[dbo].DimGender ON [Crash].dbo.Staging.[Gender] = [Crash].[dbo].DimGender.[Gender] 
+
+_______________________________________
+
+For First Harmful Event Dimension:
+
+
+SELECT DISTINCT FirstHarmfulEvent
+FROM            Staging
+
+UPDATE [Crash].dbo.Staging 
+SET [Crash].dbo.Staging.FirstHarmfulEventID = [Crash].[dbo].DimFirstHarmful.FirstHarmfulEventID
+FROM [Crash].dbo.Staging
+INNER JOIN [Crash].[dbo].DimFirstHarmful ON [Crash].dbo.Staging.[FirstHarmfulEvent] = [Crash].[dbo].DimFirstHarmful.[FirstHarmfulEvent]
+
+_______________________________________
+
+For Drug Involvement Dimension:
+
+SELECT DISTINCT DrugInvolvement
+FROM            Staging
+
+UPDATE [Crash].dbo.Staging 
+SET [Crash].dbo.Staging.DrugInvolvementID = [Crash].[dbo].DimDrugInvolvement.DrugInvolvementID
+FROM [Crash].dbo.Staging
+INNER JOIN [Crash].[dbo].DimDrugInvolvement ON [Crash].dbo.Staging.[DrugInvolvement] = [Crash].[dbo].DimDrugInvolvement.[DrugInvolvement]
+
+_______________________________________
+
+For Atmospheric Condition Dimension:
+
+SELECT DISTINCT AtmosphericCondition
+FROM            Staging
+
+UPDATE [Crash].dbo.Staging 
+SET [Crash].dbo.Staging.AtmosphericConditionID = [Crash].[dbo].DimAtmospheric.AtmosphericConditionID
+FROM [Crash].dbo.Staging
+INNER JOIN [Crash].[dbo].DimAtmospheric ON [Crash].dbo.Staging.[AtmosphericCondition] = [Crash].[dbo].DimAtmospheric.[AtmosphericCondition]
+
+______________________________________
+
+For Alcohol Results Update:
+
+update Staging
+Set AlcoholResults = '-1'
+where AlcoholResults = '\N' OR AlcoholResults = ' '
+
+_______________________________________
+
+For Fact Crash Table:
+
+SELECT *,
+CAST(Age AS int) AS Age_Transformed, 
+CAST(AlcoholResults AS decimal(3,2)) AS Alcohol_Result_Transformed,
+CAST(CrashDate AS date) AS Crash_Date_Transformed,
+CAST(FatalitiesInCrash AS int) AS Fatalities_Transformed,
+CAST(ID AS int) AS ID_Transformed
+FROM Staging;
+
+
